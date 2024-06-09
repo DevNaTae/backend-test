@@ -12,20 +12,8 @@ export class UserService {
     return this.prismaService.user.create({ data: createUserDto });
   }
 
-  async findAll(
-    @Param('skip') skip: number,
-    @Param('take') take: number,
-    @Param('cursor') cursor: Prisma.userWhereUniqueInput,
-    @Param('where') where: Prisma.userWhereInput,
-    @Param('orderBy') orderBy: Prisma.userOrderByWithRelationInput,
-  ) {
-    return this.prismaService.user.findMany({
-      skip,
-      take,
-      cursor,
-      where,
-      orderBy,
-    });
+  async findAll() {
+    return this.prismaService.user.findMany();
   }
 
   findOne(id: string) {
