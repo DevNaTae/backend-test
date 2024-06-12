@@ -6,18 +6,30 @@ import {
   Patch,
   Param,
   Delete,
+  HttpCode,
+  HttpStatus,
+  UseGuards,
 } from '@nestjs/common';
 import { UserService } from './user.service';
-import { CreateUserDto } from './dto/create-user.dto';
-import { UpdateUserDto } from './dto/update-user.dto';
+import { Roles } from 'src/role/roles.decorator';
+import { Role } from 'src/role/roles.enum';
+import { RolesGuard } from 'src/role/roles.guard';
+import { User } from './schema/user.entity';
 
 @Controller('user')
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
-  @Post()
-  create(@Body() createUserDto: CreateUserDto) {
-    return this.userService.create(createUserDto);
+  @Post('register')
+  @HttpCode(HttpStatus.CREATED)
+  register(@Body() user: User) {
+    //return this.userService.register(user);
+  }
+
+  @Post('login')
+  @HttpCode(HttpStatus.OK)
+  login(@Body() user: User) {
+    //return this.userService.login(user);
   }
 
   @Get()
@@ -26,17 +38,12 @@ export class UserController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
+  findOne(@Param('id') id: number) {
     return this.userService.findOne(id);
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
-    return this.userService.update(+id, updateUserDto);
-  }
-
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.userService.remove(id);
+  delete(@Param('id') id: number) {
+    return this.userService.delete(id);
   }
 }
